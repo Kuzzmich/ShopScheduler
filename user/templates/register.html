@@ -1,0 +1,44 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block main %}
+    <div class="container" ng-controller="authController">
+        <div class="row justify-content-center">
+            <div ng-show="data.success" class="col-5">
+                <p>
+                    Спасибо за регистрацию! Теперь Вы можете <a href="/">вернуться на главную</a> и войти на сайт
+                    со своим логином и паролем.
+                </p>
+            </div>
+            <div ng-hide="data.success" class="col-5 text-center">
+                {% csrf_token %}
+                <form id="id_register_form" ng-submit="register()" action="" method="post"
+                      enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        {{ form.password }}
+                    </div>
+                    <div class="form-group">
+                        <label for="first_name">First name</label>
+                        {{ form.first_name }}
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Last name</label>
+                        {{ form.last_name }}
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        {{ form.email }}
+                    </div>
+                    {% for field in form.hidden_fields %}
+                        {{ field }}
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary">Регистрация</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

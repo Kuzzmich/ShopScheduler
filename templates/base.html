@@ -1,0 +1,27 @@
+{% load staticfiles %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+<!DOCTYPE html>
+<html lang="en" ng-cloak ng-app="myApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="{% static 'js/angular.js' %}"></script>
+    <script src="{% static 'js/angular-route.js' %}"></script>
+    <script src="{% static 'js/angular-resource.js' %}"></script>
+    <script src="{% static 'js/angular-cookies.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/controllers.js' %}"></script>
+    <script src="{% static 'js/autofill-event.js' %}"></script>
+    <script src="{% static 'js/moment.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    {% block additional_css %}{% endblock %}
+    {% block additional_js %}{% endblock %}
+    <title>{% block title %}{% endblock %}DAMN</title>
+</head>
+<body>
+{% block content %}
+{% endblock %}
+</body>
+</html>
