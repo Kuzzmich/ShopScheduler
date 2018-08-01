@@ -1,0 +1,27 @@
+<p class="text-center">{{ shop.name }}</p>
+<form id="update-schedule-form" ng-submit="sendSchedule()" class="" method="post"
+      enctype="multipart/form-data">
+    <div class="form-row align-items-center" ng-repeat="record in shop.schedule.schedule_records track by $index">
+        <p class="form-group col-auto mb-0 mt-3 minw-80">{{ week[record.day_of_week_id] }}</p>
+        <div class="form-group col-auto">
+            <label for="time_open">Time open</label>
+            <input data-ng-model="record.time_open" type="text" class="form-control" placeholder="8:00">
+        </div>
+        <div class="form-group col-auto">
+            <label for="time_close">Time close</label>
+            <input data-ng-model="record.time_close" type="text" class="form-control" placeholder="17:00">
+        </div>
+        <div class="form-group col-auto mb-0 mt-3">
+            <div class="form-check">
+                <input data-ng-model="record.is_holiday" class="form-check-input" type="checkbox">
+                <label class="form-check-label" for="is_holiday">
+                    Is holiday
+                </label>
+            </div>
+        </div>
+        <div class="form-group col-auto mb-0 mt-3">
+            <a href="#" ng-click="addBreak()" id="add-break-button" class="btn btn-primary">Add break</a>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

@@ -1,0 +1,47 @@
+{#<form id="update-schedule-form" ng-submit="" class="" method="post"#}
+{#      enctype="multipart/form-data">#}
+{#    {% csrf_token %}#}
+{#    <div class="form-row align-items-center">#}
+{#        <p class="form-group col-auto mb-0 mt-3">MON</p>#}
+{#        <div class="form-group col-auto">#}
+{#            <label for="time_open">Time open</label>#}
+{#            <input ng-model="time_open" type="text" class="form-control" id="time_open" placeholder="8:00">#}
+{#        </div>#}
+{#        <div class="form-group col-auto">#}
+{#            <label for="time_close">Time close</label>#}
+{#            <input ng-model="time_close" type="text" class="form-control" id="time_close" placeholder="17:00">#}
+{#        </div>#}
+{#        <div class="form-group col-auto mb-0 mt-3">#}
+{#            <div class="form-check">#}
+{#                <input class="form-check-input" type="checkbox" id="is_holiday">#}
+{#                <label class="form-check-label" for="is_holiday">#}
+{#                    Is holiday#}
+{#                </label>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="form-group col-auto mb-0 mt-3">#}
+{#            <a href="#" onclick="addBreak()" id="add-break-button" class="btn btn-primary">Add break</a>#}
+{#        </div>#}
+{#    </div>#}
+{#</form>#}
+{##}
+{#<script>#}
+{#    addBreak =#}
+{#        $(function () {#}
+{#            $("#add-break-button").click(function (e) {#}
+{#                e.preventDefault();#}
+{#                $(this).parent().parent().after(#}
+{#                    '<div class="form-row align-items-center">\n' +#}
+{#                    '<div class="form-group col-auto">\n' +#}
+{#                    '    <label for="time_start">Time open</label>\n' +#}
+{#                    '    <input ng-model="time_end" type="text" class="form-control" id="time_open" placeholder="8:00">\n' +#}
+{#                    '</div>\n' +#}
+{#                    '<div class="form-group col-auto">\n' +#}
+{#                    '    <label for="time_close">Time close</label>\n' +#}
+{#                    '    <input ng-model="time_close" type="text" class="form-control" id="time_close" placeholder="17:00">\n' +#}
+{#                    '</div>\n' +#}
+{#                    '</div>'#}
+{#                );#}
+{#            });#}
+{#        });#}
+{#</script>#}

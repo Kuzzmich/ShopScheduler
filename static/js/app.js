@@ -1,15 +1,23 @@
 var myApp = angular.module('myApp', ['ngRoute', 'ngResource', 'ngCookies', 'userControllers']);
 
-// myApp.config([
-//     '$routeProvider',
-//     function ($routeProvider) {
-//         $routeProvider
-//             .when('/', {
-//             templateUrl: '/static/user-detail.html',
-//             controller: 'UserDetailController'
-//         });
-//     }
-// ]);
+myApp.config([
+    '$routeProvider',
+    function ($routeProvider) {
+        $routeProvider.
+        when('/shop/:shopId', {
+            templateUrl: '/static/templaltes/shop_detail.html',
+            controller: 'scheduleParser'
+        }).
+        when('/update/:shopId', {
+            templateUrl: '/static/templaltes/shop_schedule_update_form.html',
+            controller: 'shopScheduleUpdate'
+        }).
+        when('/close/:shopId', {
+            templateUrl: '/static/templaltes/close_shop.html',
+            controller: 'shopClose'
+        });
+    }
+]);
 
 myApp.config([
     '$httpProvider',
@@ -24,8 +32,8 @@ myApp.factory('api', function ($resource) {
         // as per HTTP authentication spec [1], credentials must be
         // encoded in base64. Lets use window.btoa [2]
         var headers = headersGetter();
-        headers['Authorization'] = ('Basic ' + btoa(data.username +
-            ':' + data.password));
+        headers['Authorization'] = ('Basic ' + btoa(data.username + ':' + data.password));
+        // headers['Authorization'] = ('Token ' + data.token);
     }
 
     // defining the endpoints. Note we escape url trailing dashes: Angular
@@ -34,7 +42,7 @@ myApp.factory('api', function ($resource) {
     // we tell Django not to [3]. This is a problem as the POST data cannot
     // be sent with the redirect. So we want Angular to not strip the slashes!
     return {
-        auth: $resource('/api/auth\\/', {}, {
+        auth: $resource('/api/auth\\/', {}, {     // /api/api-token-auth\/
             login: {method: 'POST', transformRequest: add_auth_header},
             logout: {method: 'DELETE'}
         }),

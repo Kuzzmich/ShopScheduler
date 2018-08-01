@@ -1,16 +1,23 @@
 from rest_framework import serializers
+from drf_writable_nested import WritableNestedModelSerializer  # write nested model serializer
 from django.contrib.auth.models import User
+from rest_framework.authentication import TokenAuthentication
 from shop.models import Schedule
 from shop.models import DayOfWeek
 from shop.models import ScheduleRecord
 from shop.models import Break
+from shop.models import Shop
+
+
+class BearerTokenAuthentication(TokenAuthentication):
+    keyword = 'Bearer'
 
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email', 'password')
+        fields = ('id', 'username', 'email')
 
 
 class UserRegisterSerializer(serializers.HyperlinkedModelSerializer):
@@ -31,7 +38,7 @@ class BreakSerializer(serializers.ModelSerializer):
         fields = ('name', 'schedule_record_id', 'time_start', 'time_end')
 
 
-class ScheduleRecordSerializer(serializers.ModelSerializer):
+class ScheduleRecordSerializer(WritableNestedModelSerializer):
     breaks = BreakSerializer(many=True)
 
     class Meta:
@@ -39,9 +46,17 @@ class ScheduleRecordSerializer(serializers.ModelSerializer):
         fields = ('id', 'day_of_week_id', 'time_open', 'time_close', 'is_holiday', 'breaks')
 
 
-class ScheduleSerializer(serializers.ModelSerializer):
+class ScheduleSerializer(WritableNestedModelSerializer):
     schedule_records = ScheduleRecordSerializer(many=True)
 
     class Meta:
         model = Schedule
         fields = ('name', 'schedule_records')
+
+
+class ShopSerializer(WritableNestedModelSerializer):
+    schedule = ScheduleSerializer()
+
+    class Meta:
+        model = Shop
+        fields = ('id', 'name', 'shop_owner_id', 'schedule', 'is_open')

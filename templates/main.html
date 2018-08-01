@@ -3,9 +3,7 @@
 {% block additional_js %}
 {% endblock %}
 {% block content %}
-    {#    <p>Angular block is under this one:</p>#}
-    {#    <div ng-view></div>#}
-    <div class="container">
+    <div class="container mb-3">
         <div class="row">
             <nav class="col-12 navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="#">DevShop</a>
@@ -20,14 +18,31 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shop-create' %}">Creat shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shop' %}#/shop/1">DevShop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shop' %}#/close/1">Close DevShop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'schedule-update' %}#/update/1">
+                                Update DevShop (just filled form)
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'shop' %}#/shop/2">Another shop</a>
+                        </li>
                     </ul>
                     <ul ng-controller="authController" class="navbar-nav">
                         <li ng-show="user.username" class="nav-item dropdown">
                             {% verbatim %}
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ user.username }}
-                                </a>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ user.username }}
+                            </a>
                             {% endverbatim %}
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="#" ng-click="logout()">Logout</a>

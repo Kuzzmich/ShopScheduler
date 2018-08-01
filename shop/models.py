@@ -8,6 +8,7 @@ class Shop(models.Model):
                                       related_name='shop',
                                       on_delete=models.CASCADE,
                                       verbose_name='Shop owner id')
+    is_open = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -15,10 +16,10 @@ class Shop(models.Model):
 
 class Schedule(models.Model):
     name = models.CharField(max_length=200, verbose_name='Schedule name')
-    shop_id = models.ForeignKey(Shop,
-                                related_name='schedule',
-                                on_delete=models.CASCADE,
-                                verbose_name='Schedule owner')
+    shop_id = models.OneToOneField(Shop,
+                                   related_name='schedule',
+                                   on_delete=models.CASCADE,
+                                   verbose_name='Schedule owner')
 
 
 class DayOfWeek(models.Model):
@@ -39,7 +40,7 @@ class ScheduleRecord(models.Model):
     day_of_week_id = models.ForeignKey(DayOfWeek, on_delete=models.CASCADE, verbose_name='Day of week')
     time_open = models.TimeField(verbose_name='Opening time', blank=True, null=True)
     time_close = models.TimeField(verbose_name='Closing time', blank=True, null=True)
-    is_holiday = models.BooleanField(verbose_name='Is holiday', default=False)
+    is_holiday = models.BooleanField(verbose_name='Is holiday', default=True)
 
     class Meta:
         ordering = ['day_of_week_id']

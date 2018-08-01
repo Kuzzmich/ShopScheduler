@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
@@ -12,43 +11,24 @@ import string
 import random
 from api.serializers import UserSerializer
 from api.serializers import UserRegisterSerializer
-from api.serializers import ScheduleSerializer
-from api.serializers import DayOfWeekSerializer
-from api.serializers import ScheduleRecordSerializer
-from api.serializers import BreakSerializer
+from api.serializers import ShopSerializer
 from api.authentication import QuietBasicAuthentication
-from shop.models import Schedule
-from shop.models import DayOfWeek
-from shop.models import ScheduleRecord
-from shop.models import Break
+from shop.models import Shop
 
 
-# ViewSets define the view behavior.
+# User-api
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
-# class ScheduleViewSet(viewsets.ModelViewSet):
-#     queryset = Schedule.objects.all()
-#     serializer_class = ScheduleSerializer
-#
-#
-# class DayOfWeekViewSet(viewsets.ModelViewSet):
-#     queryset = DayOfWeek.objects.all()
-#     serializer_class = DayOfWeekSerializer
-#
-#
-# class ScheduleRecordViewSet(viewsets.ModelViewSet):
-#     queryset = ScheduleRecord.objects.all()
-#     serializer_class = ScheduleRecordSerializer
-#
-#
-# class BreakViewSet(viewsets.ModelViewSet):
-#     queryset = Break.objects.all()
-#     serializer_class = BreakSerializer
+# Shop-api
+class ShopViewSet(viewsets.ModelViewSet):
+    queryset = Shop.objects.all()
+    serializer_class = ShopSerializer
 
 
+# Authentication View
 class AuthView(APIView):
     authentication_classes = (QuietBasicAuthentication,)
 
@@ -61,17 +41,20 @@ class AuthView(APIView):
         return Response({})
 
 
+# Check is user authenticated
 class IsAuthView(APIView):
     permission_classes = (AllowAny,)
 
     def get(self, request, format=None):
         content = {
+            'id': request.user.id,
             'user': request.user.username,
             'auth': request.auth
         }
         return Response(content)
 
 
+# Registration View
 class RegisterView(APIView):
     permission_classes = (AllowAny,)
 
@@ -83,18 +66,3 @@ class RegisterView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ScheduleView(APIView):
-    permission_classes = (AllowAny,)
-
-    def get(self, request):
-        schedule = Schedule.objects.get(pk=1)
-        # days_of_week = DayOfWeek.objects.all()
-        schedule_serializer = ScheduleSerializer(schedule)
-        # days_serializer = DayOfWeekSerializer(days_of_week, many=True)
-
-        return Response({
-            'schedule': schedule_serializer.data,
-            # 'days_of_week': days_serializer.data
-        })

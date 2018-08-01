@@ -9,7 +9,7 @@
                     со своим логином и паролем.
                 </p>
             </div>
-            <div ng-hide="data.success" class="col-5 text-center">
+            <div ng-hide="data.success" class="col-5">
                 {% csrf_token %}
                 <form id="id_register_form" ng-submit="register()" action="" method="post"
                       enctype="multipart/form-data">

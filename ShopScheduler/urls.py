@@ -17,9 +17,6 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import re_path
 from django.urls import include
-# from django.contrib.auth.views import login as LoginView
-from user.views import LoginView
-from django.contrib.auth.views import logout as LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +24,4 @@ urlpatterns = [
     re_path(r'^', include('main.urls')),
     re_path(r'^user/', include('user.urls')),
     re_path(r'^shop/', include('shop.urls')),
-    # re_path(r'^logout/', LogoutView, name='logout'),
 ]
