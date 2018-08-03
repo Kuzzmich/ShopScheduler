@@ -1,35 +1,27 @@
-from rest_framework import serializers
-from drf_writable_nested import WritableNestedModelSerializer  # write nested model serializer
 from django.contrib.auth.models import User
+from rest_framework import serializers
 from rest_framework.authentication import TokenAuthentication
-from shop.models import Schedule
-from shop.models import DayOfWeek
-from shop.models import ScheduleRecord
-from shop.models import Break
-from shop.models import Shop
+from drf_writable_nested import WritableNestedModelSerializer  # write nested model serializer
+from api.models import Schedule
+from api.models import ScheduleRecord
+from api.models import Break
+from api.models import Shop
 
 
 class BearerTokenAuthentication(TokenAuthentication):
     keyword = 'Bearer'
 
 
-# Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email')
+        fields = ('id', 'username', 'password', 'first_name', 'last_name', 'email')
 
 
 class UserRegisterSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'password', 'first_name', 'last_name', 'email')
-
-
-class DayOfWeekSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = DayOfWeek
-        fields = ('id', 'name')
 
 
 class BreakSerializer(serializers.ModelSerializer):
@@ -43,7 +35,7 @@ class ScheduleRecordSerializer(WritableNestedModelSerializer):
 
     class Meta:
         model = ScheduleRecord
-        fields = ('id', 'day_of_week_id', 'time_open', 'time_close', 'is_holiday', 'breaks')
+        fields = ('id', 'day_of_week', 'time_open', 'time_close', 'is_holiday', 'breaks')
 
 
 class ScheduleSerializer(WritableNestedModelSerializer):
@@ -55,8 +47,15 @@ class ScheduleSerializer(WritableNestedModelSerializer):
 
 
 class ShopSerializer(WritableNestedModelSerializer):
-    schedule = ScheduleSerializer()
+    schedule = ScheduleSerializer(required=False)   # how right is this?
 
     class Meta:
         model = Shop
-        fields = ('id', 'name', 'shop_owner_id', 'schedule', 'is_open')
+        fields = ('id', 'name', 'shop_owner_id', 'is_open', 'schedule')
+
+    def create(self, validated_data):
+        shop = Shop.objects.create(**validated_data)
+        schedule = Schedule.objects.create(shop_id=shop, name=shop.name + ' schedule')
+        for i in range(7):
+            ScheduleRecord.objects.create(schedule_id=schedule, day_of_week=i, is_holiday=True)
+        return shop

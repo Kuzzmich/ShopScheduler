@@ -39,11 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'rest_framework.authtoken',  # not working yet
-    'bootstrap4',
-    'main',
-    'user',
-    'shop',
+    'rest_framework.authtoken',
     'api',
 ]
 
@@ -118,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -143,15 +139,15 @@ LOGOUT_REDIRECT_URL = 'index'
 
 # REST Framework
 REST_FRAMEWORK = {
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
+        'api.authentication.BearerTokenAuthentication',
     )
 }
+
+AUTH_USER_MODEL = 'auth.User'  # It's for tonek creating
 
 # CORS Headers
 CORS_ORIGIN_ALLOW_ALL = True
